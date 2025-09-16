@@ -1,0 +1,11 @@
+staging_project_id = "genai-dawright"
+prod_project_id = "genai-dawright"
+cicd_runner_project_id = "genai-dawright"
+region = "us-central1"
+repository_name = "my-agent-service"
+repository_owner = "gflorindo"
+host_connection_name = "git-my-agent-service"
+create_cb_connection = true
+create_repository = false
+github_app_installation_id = "73006744"
+github_pat_secret_id = "git-my-agent-service-github-oauthtoken-8ce107"
