@@ -132,7 +132,6 @@ def deploy_agent_engine_app(
         "description": "A production-ready fullstack research agent that uses Gemini to strategize, research, and synthesize comprehensive reports with human-in-the-loop collaboration",
         "extra_packages": extra_packages,
         "env_vars": env_vars,
-        "service_account": service_account,
     }
     logging.info(f"Agent config: {agent_config}")
     agent_config["requirements"] = requirements
@@ -141,6 +140,8 @@ def deploy_agent_engine_app(
     existing_agents = list(agent_engines.list(filter=f"display_name={agent_name}"))
     if existing_agents:
         # Update the existing agent with new configuration
+        if service_account:
+            agent_config["service_account"] = service_account
         logging.info(f"Updating existing agent: {agent_name}")
         remote_agent = existing_agents[0].update(**agent_config)
     else:

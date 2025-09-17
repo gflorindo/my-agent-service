@@ -33,6 +33,7 @@ steps:
         uv run app/agent_engine_app.py \
           --project ${_STAGING_PROJECT_ID} \
           --location ${_REGION} \
+          --agent-name=$_AGENT_NAME \
           --service-account ${_APP_SA_EMAIL_STAGING} \
           --set-env-vars="COMMIT_SHA=${COMMIT_SHA}"
     env:
@@ -107,7 +108,7 @@ steps:
         echo "_________________________________________________________________________"
 
 substitutions:
-  _STAGING_PROJECT_ID: YOUR_STAGING_PROJECT_ID
+  _STAGING_PROJECT_ID: genai-dawright
   _REGION: us-central1
 
 logsBucket: gs://${PROJECT_ID}-my-fullstack-agent-logs-data/build-logs

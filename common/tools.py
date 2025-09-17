@@ -104,3 +104,17 @@ def convert_and_upload_to_gcs(file_path: str, bucket_name: str) -> dict:
         return {"status": "success", "gcs_path": gcs_path}
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
+
+def search_source_documents(query: str) -> dict:
+    """Searches for information within the private, uploaded documents.
+
+    Args:
+        query (str): The search query.
+
+    Returns:
+        dict: A dictionary containing the search results.
+    """
+    # This is a placeholder implementation.
+    # In a real-world scenario, this would query a vector database.
+    return {"status": "success", "results": f"No documents found for query: {query}"}
