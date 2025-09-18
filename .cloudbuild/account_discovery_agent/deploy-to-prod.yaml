@@ -25,7 +25,7 @@ steps:
         # 'uv' will be found in the PATH (from the 'env' block below).
         # 'uv run' will then install all your project dependencies
         # (from pyproject.toml/uv.lock) before executing the script.
-        uv run app/agent_engine_app.py \
+        uv run account_discovery_agent/deployment.py \
           --project ${_PROD_PROJECT_ID} \
           --location ${_REGION} \
           --service-account ${_APP_SA_EMAIL_PROD} \

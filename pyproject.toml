@@ -92,7 +92,7 @@ pythonpath = "."
 asyncio_default_fixture_loop_scope = "function"
 
 [tool.hatch.build.targets.wheel]
-packages = ["app","frontend"]
+packages = ["app","frontend", "account_discovery_agent"]
 
 # This configuration file is used by goo.gle/agent-starter-pack to power remote templating.
 # It defines the template's properties, settings, and deployment options.
