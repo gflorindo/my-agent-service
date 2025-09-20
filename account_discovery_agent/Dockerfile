@@ -8,6 +8,7 @@ WORKDIR /usr/src/app
 COPY pyproject.toml poetry.lock* ./
 
 # Install dependencies
+RUN apt-get update && apt-get install -y libstdc++6 && rm -rf /var/lib/apt/lists/*
 RUN pip install --no-cache-dir -e .
 
 # Copy the rest of the application's code into the container
@@ -17,5 +18,4 @@ COPY . .
 EXPOSE 8080
 
 # Run the application when the container launches
-# Assuming your FastAPI app instance is named 'app' in 'my-fullstack-agent/app/agent_engine_app.py'
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "account_discovery_agent.deployment:app", "--host", "0.0.0.0", "--port", "8080"]

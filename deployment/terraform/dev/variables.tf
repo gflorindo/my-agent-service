@@ -54,3 +54,8 @@ variable "app_sa_roles" {
   ]
 }
 
+variable "deploy_cloud_run" {
+  description = "Boolean flag to deploy cloud run"
+  type        = bool
+  default     = false
+}

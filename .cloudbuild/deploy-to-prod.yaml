@@ -25,20 +25,20 @@ steps:
         # 'uv' will be found in the PATH (from the 'env' block below).
         # 'uv run' will then install all your project dependencies
         # (from pyproject.toml/uv.lock) before executing the script.
-        uv run app/agent_engine_app.py \
+        uv run account_discovery_agent/deployment.py \
           --project ${_PROD_PROJECT_ID} \
           --location ${_REGION} \
           --service-account ${_APP_SA_EMAIL_PROD} \
-          --set-env-vars="COMMIT_SHA=${COMMIT_SHA}"
+          --set-env-vars="COMMIT_SHA=$COMMIT_SHA"
     env:
       # This PATH modification is crucial so the shell can find 'uv'
       - 'PATH=/usr/local/bin:/usr/bin:~/.local/bin'
 
 substitutions:
-  _PROD_PROJECT_ID: YOUR_PROD_PROJECT_ID
+  _PROD_PROJECT_ID: genai-dawright
   _REGION: us-central1
   # You'll also need to add this substitution, since your script uses it:
-  _APP_SA_EMAIL_PROD: "service-152389623671@gcp-sa-cloudbuild.iam.gserviceaccount.com"
+  _APP_SA_EMAIL_PROD: "my-fullstack-agent-app@genai-dawright.iam.gserviceaccount.com"
 
 
 logsBucket: gs://${PROJECT_ID}-my-fullstack-agent-logs-data/build-logs

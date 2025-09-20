@@ -1,0 +1,28 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/${_STAGING_PROJECT_ID}/account-discovery-agent', '.']
+
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/${_STAGING_PROJECT_ID}/account-discovery-agent']
+
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - 'run'
+      - 'deploy'
+      - 'account-discovery-agent'
+      - '--image'
+      - 'gcr.io/${_STAGING_PROJECT_ID}/account-discovery-agent'
+      - '--region'
+      - '${_REGION}'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+      - '--service-account'
+      - 'account-discovery-agent-app@${_STAGING_PROJECT_ID}.iam.gserviceaccount.com'
+substitutions:
+  _STAGING_PROJECT_ID: genai-dawright
+  _REGION: us-central1
+

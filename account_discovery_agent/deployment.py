@@ -84,8 +84,8 @@ def deploy_agent_engine_app(
     project: str,
     location: str,
     agent_name: str | None = None,
-    requirements_file: str = ".requirements.txt",
-    extra_packages: list[str] = ["./account_discovery_agent"],
+    requirements_file: str = "requirements.txt",
+    extra_packages: list[str] = ["."],
     env_vars: dict[str, str] = {},
     service_account: str | None = None,
 ) -> agent_engines.AgentEngine:
@@ -131,8 +131,6 @@ def deploy_agent_engine_app(
     existing_agents = list(agent_engines.list(filter=f"display_name={agent_name}"))
     if existing_agents:
         # Update the existing agent with new configuration
-        if service_account:
-            agent_config["service_account"] = service_account
         logging.info(f"Updating existing agent: {agent_name}")
         remote_agent = existing_agents[0].update(**agent_config)
     else:
@@ -175,13 +173,13 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--requirements-file",
-        default=".requirements.txt",
+        default="requirements.txt",
         help="Path to requirements.txt file",
     )
     parser.add_argument(
         "--extra-packages",
         nargs="+",
-        default=["./account_discovery_agent"],
+        default=["."],
         help="Additional packages to include",
     )
     parser.add_argument(

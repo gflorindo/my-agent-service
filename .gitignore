@@ -195,3 +195,10 @@ my_env.tfvars
 .saved_chats
 .env
 .requirements.txt
+
+# Service account keys
+*service-account-key.json
+service-account-key.json
+
+# Terraform variables
+*.tfvars

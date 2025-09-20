@@ -93,15 +93,15 @@ def deploy_agent_engine_app(
     project: str,
     location: str,
     agent_name: str | None = None,
-    requirements_file: str = ".requirements.txt",
-    extra_packages: list[str] = ["./app"],
+    requirements_file: str = "requirements.txt",
+    extra_packages: list[str] = ["."],
     env_vars: dict[str, str] = {},
     service_account: str | None = None,
 ) -> agent_engines.AgentEngine:
     """Deploy the agent engine app to Vertex AI."""
 
     staging_bucket_uri = f"gs://{project}-agent-engine"
-    artifacts_bucket_name = f"{project}-my-fullstack-agent-logs-data"
+    artifacts_bucket_name = f"{project}-{agent_name}-logs-data"
     create_bucket_if_not_exists(
         bucket_name=artifacts_bucket_name, project=project, location=location
     )
@@ -137,7 +137,16 @@ def deploy_agent_engine_app(
     agent_config["requirements"] = requirements
 
     # Check if an agent with this name already exists
-    existing_agents = list(agent_engines.list(filter=f"display_name={agent_name}"))
+    # existing_agents = list(agent_engines.list(filter=f"display_name={agent_name}"))
+    existing_agents = []
+    try:
+        with open("deployment_metadata.json") as f:
+            deployment_metadata = json.load(f)
+            agent_id = deployment_metadata.get("remote_agent_engine_id")
+            if agent_id:
+                existing_agents = [agent_engines.get(agent_id)]
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass  # File doesn't exist or is empty/invalid, so no existing agent to update
     if existing_agents:
         # Update the existing agent with new configuration
         if service_account:
@@ -179,18 +188,18 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--agent-name",
-        default="my-fullstack-agent",
+        default="account-discovery-agent",
         help="Name for the agent engine",
     )
     parser.add_argument(
         "--requirements-file",
-        default=".requirements.txt",
+        default="requirements.txt",
         help="Path to requirements.txt file",
     )
     parser.add_argument(
         "--extra-packages",
         nargs="+",
-        default=["./app"],
+        default=["./account_discovery_agent"],
         help="Additional packages to include",
     )
     parser.add_argument(
